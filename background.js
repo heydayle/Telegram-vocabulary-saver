@@ -46,8 +46,8 @@ async function handleSaveVocab(message) {
     throw new Error('Word and meaning are required.');
   }
   
-  const meaningWithSpoiler = `${escapeMarkdown('=')} ||${escapeMarkdown(meaning)}||`
-  const text = `*${escapeMarkdown(word)}* = ${meaningWithSpoiler}`;
+  const messageFormatted = `*${escapeMarkdown(word)}* ${escapeMarkdown('=')} ||${escapeMarkdown(meaning)}||`
+  const text = `${messageFormatted}`;
 
   const endpoint = `${TELEGRAM_API_BASE}/bot${botToken}/sendMessage`;
   const response = await fetch(endpoint, {
