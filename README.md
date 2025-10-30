@@ -14,7 +14,9 @@ Telegram Vocabulary Saver is a Chrome extension that lets you capture new words 
 ### Requirements
 
 - A Telegram bot token obtained from [@BotFather](https://core.telegram.org/bots/features#botfather).
-- The numeric ID of the destination chat (for groups, ensure the bot is added and promote it if necessary).
+- The numeric ID of the destination chat (for groups, ensure the bot is added and promote it if necessary). You can quickly
+  retrieve the ID by inviting [@GetIDsBot](https://t.me/getidsbot) to the chat, sending `/start`, and copying the `chat id`
+  value it returns.
 - Google Chrome 88+ (Manifest V3 support) or a Chromium-based browser with developer mode.
 
 ### Install the extension
@@ -72,6 +74,8 @@ To adjust your credentials later, open the extension's details card on `chrome:/
    - You can manually trigger a call by running `chrome.runtime.sendMessage({type:'SAVE_VOCAB', payload:{word:'test', meaning:'example', pageUrl:location.href}})` from the service worker console.
 4. **Validate Telegram API**
    - The worker logs the full API error body when Telegram rejects the request. Common causes include invalid tokens, missing chat permissions, or mis-formatted Markdown. Ensure the bot is part of the chat and try sending a plain text message with `curl` to confirm the token works.
+5. **Confirm chat IDs**
+   - If you are unsure whether the stored chat ID is correct, temporarily add [@GetIDsBot](https://t.me/getidsbot) to the destination chat and issue `/start`. The bot replies with the numeric chat identifier you should paste into the setup or options page.
 
 After adjusting settings, reload the extension from `chrome://extensions` (click **Reload**) to restart the service worker.
 
