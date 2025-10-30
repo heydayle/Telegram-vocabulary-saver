@@ -45,8 +45,9 @@ async function handleSaveVocab(message) {
   if (!word || !meaning) {
     throw new Error('Word and meaning are required.');
   }
-
-  const text = `🧠 *${escapeMarkdown(word)}*\n💬 ${escapeMarkdown(meaning)}\n🔗 [Source](${escapeMarkdown(pageUrl)})`;
+  
+  const meaningWithSpoiler = `||${meaning}||`
+  const text = `*${escapeMarkdown(word)}* = ${meaningWithSpoiler}`;
 
   const endpoint = `${TELEGRAM_API_BASE}/bot${botToken}/sendMessage`;
   const response = await fetch(endpoint, {
@@ -57,7 +58,7 @@ async function handleSaveVocab(message) {
     body: JSON.stringify({
       chat_id: chatId,
       text,
-      parse_mode: 'Markdown'
+      parse_mode: 'MarkdownV2'
     })
   });
 
