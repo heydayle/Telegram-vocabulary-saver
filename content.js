@@ -11,8 +11,6 @@ function removePopup() {
 }
 
 function createPopup(x, y) {
-  removePopup();
-
   popupElement = document.createElement('div');
   popupElement.className = POPUP_CLASS;
 
