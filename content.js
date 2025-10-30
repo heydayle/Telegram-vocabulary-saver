@@ -84,44 +84,39 @@ function createPopup(x, y) {
       input.focus();
       return;
     }
-    savedSelectedWord = selectedWord;
     try {
-      await chrome.runtime.sendMessage(
-            {
-              type: 'SAVE_VOCAB',
-              payload: {
-                word: selectedWord,
-                meaning,
-                pageUrl: window.location.href
-              }
-            },
-            (response) => {
-              if (chrome.runtime.lastError) {
-                console.error(chrome.runtime.lastError.message);
-                showToast(`ERROR: <b>${chrome.runtime.lastError.message}</b>`, true);
-              } else if (!response?.success) {
-                console.error(response?.error || 'Failed to save word.');
-                showToast(`ERROR: <b>${response?.error || 'Failed to save word.'}</b>`, true);
-              } if (response?.success) {
-                showToast(`Saved: <b>"${savedSelectedWord}"</b>`);
-              }
-            }
-          );
+      savedSelectedWord = selectedWord;
+      chrome.runtime.sendMessage(
+        {
+          type: 'SAVE_VOCAB',
+          payload: {
+            word: selectedWord,
+            meaning,
+            pageUrl: window.location.href
+          }
+        },
+        (response) => {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError.message);
+            showToast(`ERROR: <b>${chrome.runtime.lastError.message}</b>`, true);
+          } else if (!response?.success) {
+            console.error(response?.error || 'Failed to save word.');
+            showToast(`ERROR: <b>${response?.error || 'Failed to save word.'}</b>`, true);
+          } if (response?.success) {
+            showToast(`Saved: <b>"${savedSelectedWord}"</b>`);
+          }
+        }
+      );
+          
+      removePopup();
     } catch (error) {
       console.error('Error sending message to background script:', error);
     }
-    finally {
-      removePopup();
-    }
-    
   });
 
   popupElement.appendChild(wordLabel);
   popupElement.appendChild(input);
   popupElement.appendChild(button);
-
-  // popupElement.style.top = `${y}px`;
-  // popupElement.style.left = `${x}px`;
 
   document.body.appendChild(popupElement);
 
