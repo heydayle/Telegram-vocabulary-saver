@@ -1,4 +1,23 @@
+importScripts('vendor/node-telegram-bot-api.js');
+
 const TELEGRAM_API_BASE = 'https://api.telegram.org';
+
+let botInstance;
+
+function getBot(botToken) {
+  if (!botToken) {
+    throw new Error('Telegram bot token is required.');
+  }
+
+  if (!botInstance || botInstance.token !== botToken) {
+    botInstance = new TelegramBot(botToken, {
+      polling: false,
+      baseApiUrl: TELEGRAM_API_BASE
+    });
+  }
+
+  return botInstance;
+}
 
 function storageGet(keys) {
   return new Promise((resolve, reject) => {
@@ -48,23 +67,8 @@ async function handleSaveVocab(message) {
 
   const text = `🧠 *${escapeMarkdown(word)}*\n💬 ${escapeMarkdown(meaning)}\n🔗 [Source](${escapeMarkdown(pageUrl)})`;
 
-  const endpoint = `${TELEGRAM_API_BASE}/bot${botToken}/sendMessage`;
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text,
-      parse_mode: 'Markdown'
-    })
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Telegram API error: ${errorText}`);
-  }
+  const bot = getBot(botToken);
+  await bot.sendMessage(chatId, text, { parse_mode: 'Markdown' });
 
   return true;
 }
