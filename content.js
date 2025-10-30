@@ -18,8 +18,7 @@ function createPopup(x, y) {
   wordLabel.className = `${POPUP_CLASS}__word`;
   wordLabel.textContent = selectedWord;
 
-  const input = document.createElement('input');
-  input.type = 'text';
+  const input = document.createElement('textarea');
   input.placeholder = 'Enter meaning...';
   input.className = `${POPUP_CLASS}__input`;
   input.addEventListener('keydown', (event) => {
