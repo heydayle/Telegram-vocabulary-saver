@@ -11,7 +11,7 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   z-index: 2147483647;
-  max-width: 320px;
+  width: 320px;
 }
 
 .telegram-vocab-popup__word {
@@ -25,13 +25,14 @@
 
 .telegram-vocab-popup__input {
   flex: 1;
-  min-width: 140px;
   padding: 6px 8px;
   border: 1px solid #cccccc;
   border-radius: 6px;
   font-size: 14px;
   color: #333333;
   background: #ffffff;
+  max-width: 300px;
+  width: 300px;
 }
 
 .telegram-vocab-popup__button {
@@ -39,6 +40,7 @@
   color: #ffffff;
   border: none;
   padding: 6px 12px;
+  margin-left: auto;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
@@ -47,4 +49,24 @@
 
 .telegram-vocab-popup__button:hover {
   background-color: #0056b3;
+}
+
+.telegram-vocab-toast {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(207, 255, 203);
+  color: #20a035;
+  padding: 20px 50px;
+  border-radius: 20px;
+  font-size: 14px;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 2147483647;
+}
+.telegram-vocab-toast--error {
+  font-weight: bold;
+  background-color: rgba(255, 200, 200, 1);
+  color: #a00000;
 }

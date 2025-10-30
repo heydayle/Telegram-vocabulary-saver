@@ -1,6 +1,7 @@
 const POPUP_CLASS = 'telegram-vocab-popup';
 let popupElement = null;
 let selectedWord = '';
+let savedSelectedWord = '';
 
 function removePopup() {
   if (popupElement && popupElement.parentNode) {
@@ -10,13 +11,57 @@ function removePopup() {
   selectedWord = '';
 }
 
+function clampPopupPosition(desiredX, desiredY) {
+  if (!popupElement) {
+    return;
+  }
+
+  const margin = 112;
+  const scrollX = window.scrollX || document.documentElement.scrollLeft || 0;
+  const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  const popupWidth = popupElement.offsetWidth;
+  const popupHeight = popupElement.offsetHeight;
+
+  const minLeft = scrollX + margin;
+  const minTop = scrollY + 62;
+  const maxLeft = scrollX + viewportWidth - popupWidth - margin;
+  const maxTop = scrollY + viewportHeight - popupHeight - 62;
+
+  const clampedLeft = Math.min(
+    Math.max(desiredX, minLeft),
+    Math.max(minLeft, maxLeft)
+  );
+  const clampedTop = Math.min(
+    Math.max(desiredY, minTop),
+    Math.max(minTop, maxTop)
+  );
+
+  popupElement.style.left = `${clampedLeft}px`;
+  popupElement.style.top = `${clampedTop}px`;
+}
+
+function showToast(message, isError = false) {
+  const toast = document.createElement('div');
+  toast.className = `telegram-vocab-toast ${isError ? 'telegram-vocab-toast--error' : ''}`;
+  toast.innerHTML = message;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    document.body.removeChild(toast);
+    savedSelectedWord = '';
+  }, 3000);
+}
+
 function createPopup(x, y) {
   popupElement = document.createElement('div');
   popupElement.className = POPUP_CLASS;
 
   const wordLabel = document.createElement('span');
   wordLabel.className = `${POPUP_CLASS}__word`;
-  wordLabel.textContent = selectedWord;
+  wordLabel.textContent = `"${selectedWord}"`;
 
   const input = document.createElement('textarea');
   input.placeholder = 'Enter meaning...';
@@ -39,36 +84,43 @@ function createPopup(x, y) {
       input.focus();
       return;
     }
-
-    chrome.runtime.sendMessage(
-      {
-        type: 'SAVE_VOCAB',
-        payload: {
-          word: selectedWord,
-          meaning,
-          pageUrl: window.location.href
+    try {
+      savedSelectedWord = selectedWord;
+      chrome.runtime.sendMessage(
+        {
+          type: 'SAVE_VOCAB',
+          payload: {
+            word: selectedWord,
+            meaning,
+            pageUrl: window.location.href
+          }
+        },
+        (response) => {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError.message);
+            showToast(`ERROR: <b>${chrome.runtime.lastError.message}</b>`, true);
+          } else if (!response?.success) {
+            console.error(response?.error || 'Failed to save word.');
+            showToast(`ERROR: <b>${response?.error || 'Failed to save word.'}</b>`, true);
+          } if (response?.success) {
+            showToast(`Saved: <b>"${savedSelectedWord}"</b>`);
+          }
         }
-      },
-      (response) => {
-        if (chrome.runtime.lastError) {
-          console.error(chrome.runtime.lastError.message);
-        } else if (!response?.success) {
-          console.error(response?.error || 'Failed to save word.');
-        }
-      }
-    );
-
-    removePopup();
+      );
+          
+      removePopup();
+    } catch (error) {
+      console.error('Error sending message to background script:', error);
+    }
   });
 
   popupElement.appendChild(wordLabel);
   popupElement.appendChild(input);
   popupElement.appendChild(button);
 
-  popupElement.style.top = `${y}px`;
-  popupElement.style.left = `${x}px`;
-
   document.body.appendChild(popupElement);
+
+  clampPopupPosition(x, y);
 
   // requestAnimationFrame(() => input.focus());
 }
@@ -97,8 +149,9 @@ document.addEventListener('mouseup', (event) => {
   }
 
   selectedWord = text.charAt(0).toUpperCase() + text.slice(1);
+  
+  let pageX = event.pageX + 12;
+  let pageY = event.pageY + 12;
 
-  const pageX = event.pageX + 12;
-  const pageY = event.pageY + 12;
   createPopup(pageX, pageY);
 });
