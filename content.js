@@ -78,7 +78,7 @@ function createPopup(x, y) {
   button.textContent = 'Save';
   button.className = `${POPUP_CLASS}__button`;
 
-  button.addEventListener('click', async () => {
+  button.addEventListener('click', () => {
     const meaning = input.value.trim();
     if (!meaning) {
       input.focus();
