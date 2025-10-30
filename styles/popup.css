@@ -2,7 +2,7 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   padding: 10px 12px;
   background: #ffffff;
@@ -17,10 +17,10 @@
 .telegram-vocab-popup__word {
   font-weight: 600;
   color: #333333;
-  max-width: 120px;
-  white-space: nowrap;
+  max-width: 300px;
+  /* white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 }
 
 .telegram-vocab-popup__input {
