@@ -92,12 +92,12 @@ document.addEventListener('mouseup', (event) => {
   }
 
   const text = selection.toString().trim();
-  if (!text) {
+  if (!text || text.split(' ').length > 10) {
     removePopup();
     return;
   }
 
-  selectedWord = text;
+  selectedWord = text.charAt(0).toUpperCase() + text.slice(1);
 
   const pageX = event.pageX + 12;
   const pageY = event.pageY + 12;
