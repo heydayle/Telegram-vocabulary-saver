@@ -73,7 +73,7 @@ function createPopup(x, y) {
 
   document.body.appendChild(popupElement);
 
-  requestAnimationFrame(() => input.focus());
+  // requestAnimationFrame(() => input.focus());
 }
 
 document.addEventListener('mousedown', (event) => {
