@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Telegram Vocabulary Saver - Options</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 40px auto;
+        max-width: 480px;
+        color: #222222;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+      input {
+        width: 100%;
+        padding: 10px 12px;
+        margin-bottom: 16px;
+        border: 1px solid #cccccc;
+        border-radius: 6px;
+        font-size: 15px;
+      }
+      button {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.2s ease-in-out;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .status {
+        margin-top: 12px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Telegram Settings</h1>
+    <p>Update your Telegram bot token and chat ID.</p>
+    <label for="botToken">Bot Token</label>
+    <input type="text" id="botToken" />
+
+    <label for="chatId">Chat ID</label>
+    <input type="text" id="chatId" />
+
+    <button id="save">Save</button>
+    <div class="status" id="status" role="status"></div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
