@@ -2,6 +2,8 @@
 
 Telegram Vocabulary Saver is a Chrome extension that lets you capture new words as you browse, add a quick definition, and send the entry to a Telegram group or channel through your bot. Highlight any word on a page, jot down the meaning, and the extension pushes the formatted message straight to Telegram so you can keep a running vocabulary log.
 
+https://github.com/user-attachments/assets/ce36b4ff-ff84-4dc0-8e5f-aded7ea80459
+
 ## For End Users
 
 ### Features
