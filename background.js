@@ -32,32 +32,6 @@ function openSetupPage() {
   });
 }
 
-function openOptionsPage() {
-  return new Promise((resolve, reject) => {
-    if (chrome.runtime.openOptionsPage) {
-      chrome.runtime.openOptionsPage(() => {
-        const error = chrome.runtime.lastError;
-        if (error) {
-          reject(new Error(error.message));
-          return;
-        }
-        resolve();
-      });
-      return;
-    }
-
-    const url = chrome.runtime.getURL('options.html');
-    chrome.tabs.create({ url }, () => {
-      const error = chrome.runtime.lastError;
-      if (error) {
-        reject(new Error(error.message));
-        return;
-      }
-      resolve();
-    });
-  });
-}
-
 async function handleSaveVocab(message) {
   const { botToken, chatId } = await getCredentials();
 
