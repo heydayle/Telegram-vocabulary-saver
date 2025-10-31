@@ -128,16 +128,3 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   }
 });
 
-chrome.action.onClicked.addListener(async () => {
-  try {
-    const { botToken, chatId } = await getCredentials();
-    if (!botToken || !chatId) {
-      await openSetupPage();
-      return;
-    }
-
-    await openOptionsPage();
-  } catch (error) {
-    console.error('Failed to handle extension icon click:', error);
-  }
-});

@@ -15,7 +15,8 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "Telegram Vocabulary Saver"
+    "default_title": "Telegram Vocabulary Saver",
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
