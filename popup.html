@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Telegram Vocabulary Saver</title>
+  <link rel="stylesheet" href="styles/action-popup.css" />
+</head>
+<body>
+  <main class="popup" id="popupRoot">
+    <section class="popup__view" id="menuView">
+      <button type="button" class="popup__button" id="addNewButton">Add new</button>
+      <button type="button" class="popup__button" id="settingsButton">Settings</button>
+      <div class="popup__footer">
+        <p class="popup__creator">Created by <span class="popup__creator-name">Thinh Le</span></p>
+        <a class="popup__link" id="creatorLink" href="https://github.com/heydayle" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </section>
+
+    <form class="popup__view popup__view--form popup__view--hidden" id="addForm">
+      <label class="popup__label" for="wordInput">Word</label>
+      <input class="popup__input" id="wordInput" name="word" type="text" autocomplete="off" required />
+
+      <label class="popup__label" for="meaningInput">Meaning</label>
+      <input class="popup__input" id="meaningInput" name="meaning" type="text" autocomplete="off" required />
+
+      <div class="popup__actions">
+        <button type="button" class="popup__secondary" id="cancelButton">Back</button>
+        <button type="submit" class="popup__primary" id="saveButton">Save</button>
+      </div>
+      <p class="popup__status" id="statusMessage" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
